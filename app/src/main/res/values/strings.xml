@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Wafer Messenger</string>
+    <string name="action_settings">Settings</string>
+    <string name="title">Waffer</string>
+    <string name="delete">DELETE</string>
+
+    <string name="text">Internet connection is not available on the device,try again later</string>
+</resources>
