@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
         coordinatorLayout = findViewById(R.id.coordinator_layout);
         countryList = new ArrayList<>();
 
-        MySSLCertificate.nuke();
+        //MySSLCertificate.nuke();
 
         if(Util.IsconnectionPresent(MainActivity.this)){
             recyclerView.setVisibility(View.VISIBLE);
@@ -80,37 +80,27 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemTouch
             Toast.makeText(MainActivity.this, getResources().getString(R.string.text), Toast.LENGTH_LONG).show();
         }
 
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, this);
+
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT , this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
 
-
-         
-
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback1 = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.UP) {
+        connectionLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
+            public void onClick(View v) {
 
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                // Row is swiped from recycler view
-                // remove it from adapter
-                Toast.makeText(context, direction, Toast.LENGTH_SHORT).show();
+                if(Util.IsconnectionPresent(MainActivity.this)){
+                    recyclerView.setVisibility(View.VISIBLE);
+                    new GetCountryRequest().execute();
+                }else{
+                    connectionLayout.setVisibility(View.VISIBLE);
+                    Toast.makeText(MainActivity.this, getResources().getString(R.string.text), Toast.LENGTH_LONG).show();
+                }
             }
+        });
 
-            @Override
-            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-            }
-        };
 
-        // attaching the touch helper to recycler view
-        new ItemTouchHelper(itemTouchHelperCallback1).attachToRecyclerView(recyclerView);
     }
-
-
 
     public  class GetCountryRequest extends AsyncTask<Void, Void, String> {
 
